@@ -19,11 +19,21 @@ public class PlayerController : MonoBehaviour
         //Velocityの元となる値の取得（右なら1.0f、左なら-1.0f、なにもなければ0)
         axisH = Input.GetAxisRaw("Horizontal");
 
+        if (axisH > 0)
+        {
+            //右を向く
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        else if (axisH < 0)
+        {
+            //左を向く
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
 
     }
 
     //1秒間に50回(50fps)繰り返すように制御しながら行う繰り返しメソッド
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         //Velocityに値を代入
         rbody.linearVelocity = new Vector2(axisH * speed, rbody.linearVelocity.y);
