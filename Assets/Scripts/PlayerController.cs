@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
     float axisH; //入力の方向を記憶するための変数
     public float speed = 3.0f; //プレイヤーのスピードを調整
 
+    public float jumpPower = 9.0f; //ジャンプ力
+    bool goJump = false; //ジャンプフラグ（true:真on、false:偽off）
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -30,6 +33,12 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector3(-1, 1, 1);
         }
 
+        //GetButtonDownメソッド→引数に指定したボタンが押されたらtrueを返す、押されてなければfalseを返す
+        if (Input.GetButtonDown("Jump"))
+        {
+            Jump();//Jumpメソッドの発動
+        }
+
     }
 
     //1秒間に50回(50fps)繰り返すように制御しながら行う繰り返しメソッド
@@ -38,5 +47,19 @@ public class PlayerController : MonoBehaviour
         //Velocityに値を代入
         rbody.linearVelocity = new Vector2(axisH * speed, rbody.linearVelocity.y);
 
+        //ジャンプフラグが立ったら
+        if (goJump == true)
+        {
+            //ジャンプさせる→プレイヤーを上に押し出す
+            rbody.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
+            goJump = false; //フラグをOFFに戻す
+        }
     }
+
+    //ジャンプボタンが押されたときに呼び出されるメソッド
+    void Jump()
+    {
+        goJump = true; //ジャンプフラグをON
+    }
+
 }
