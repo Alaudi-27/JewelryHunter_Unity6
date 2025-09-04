@@ -60,11 +60,11 @@ public class CameraController : MonoBehaviour
         //もしも上下の限界までプレイヤーが移動したら
         if (y < bottomLimit)
         {
-            x = bottomLimit;
+            y = bottomLimit;
         }
         else if (y > topLimit)
         {
-            x = topLimit;
+            y = topLimit;
         }
 
         //取り決めた各変数x,y,zの値をカメラのポジションとする
