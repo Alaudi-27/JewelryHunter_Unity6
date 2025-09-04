@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayer; //地面レイヤーを指名するための変数
 
     Rigidbody2D rbody; //PlayerについているRigidbody2Dを扱うための変数
+    Animator animator; //Animatorコンポーネントを扱うための変数
     float axisH; //入力の方向を記憶するための変数
     bool goJump = false; //ジャンプフラグ（true:真on、false:偽off）
     bool onGround = false; //地面にいるかどうかの判定（地面にいる:true、地面にいない:false）
@@ -18,6 +19,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rbody = GetComponent<Rigidbody2D>(); //Playerについているコンポーネント情報を取得
+
+        animator = GetComponent<Animator>();//Animatorコンポーネント情報を代入
     }
 
     // Update is called once per frame
@@ -67,6 +70,18 @@ public class PlayerController : MonoBehaviour
             rbody.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
             goJump = false; //フラグをOFFに戻す
         }
+
+        if (onGround) //地面の上にいる時
+        {
+            if (axisH == 0) //左右が押されていない
+            {
+                animator.SetBool("Run", false); //Idleアニメに切り替え
+            }
+            else //左右が押されている
+            {
+                animator.SetBool("Run", true); //Runアニメに切り替え
+            }
+        }
     }
 
     //ジャンプボタンが押されたときに呼び出されるメソッド
@@ -75,6 +90,7 @@ public class PlayerController : MonoBehaviour
         if (onGround)
         {
             goJump = true; //ジャンプフラグをON
+            animator.SetTrigger("Jump");
         }
     }
 
