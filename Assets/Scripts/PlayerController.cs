@@ -71,17 +71,17 @@ public class PlayerController : MonoBehaviour
             goJump = false; //フラグをOFFに戻す
         }
 
-        if (onGround) //地面の上にいる時
+        //if (onGround) //地面の上にいる時
+        //{
+        if (axisH == 0) //左右が押されていない
         {
-            if (axisH == 0) //左右が押されていない
-            {
-                animator.SetBool("Run", false); //Idleアニメに切り替え
-            }
-            else //左右が押されている
-            {
-                animator.SetBool("Run", true); //Runアニメに切り替え
-            }
+            animator.SetBool("Run", false); //Idleアニメに切り替え
         }
+        else //左右が押されている
+        {
+            animator.SetBool("Run", true); //Runアニメに切り替え
+        }
+        //}
     }
 
     //ジャンプボタンが押されたときに呼び出されるメソッド
