@@ -22,7 +22,6 @@ public class PlayerController : MonoBehaviour
 
         animator = GetComponent<Animator>();//Animatorコンポーネント情報を代入
     }
-
     // Update is called once per frame
     void Update()
     {
