@@ -11,18 +11,18 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody2D rbody; //PlayerについているRigidbody2Dを扱うための変数
     Animator animator; //Animatorコンポーネントを扱うための変数
+
     float axisH; //入力の方向を記憶するための変数
     bool goJump = false; //ジャンプフラグ（true:真on、false:偽off）
     bool onGround = false; //地面にいるかどうかの判定（地面にいる:true、地面にいない:false）
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rbody = GetComponent<Rigidbody2D>(); //Playerについているコンポーネント情報を取得
 
         animator = GetComponent<Animator>();//Animatorコンポーネント情報を代入
     }
-    // Update is called once per frame
+
     void Update()
     {
         //ゲームのステータスがplayingでないなら
@@ -125,8 +125,6 @@ public class PlayerController : MonoBehaviour
             Debug.Log("ゲームオーバー");
             GameOver();
         }
-
-
     }
 
     //ゴールした時のメソッド
@@ -147,6 +145,9 @@ public class PlayerController : MonoBehaviour
 
         //少し上に飛び跳ねさせる
         rbody.AddForce(new Vector2(0, 5), ForceMode2D.Impulse);
+
+        //プレイヤーを3秒後に抹消
+        Destroy(gameObject, 3.0f);
     }
 
     void GameStop()
