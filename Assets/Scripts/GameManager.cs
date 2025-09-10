@@ -4,6 +4,9 @@ public class GameManager : MonoBehaviour
 {
     public static string gameState; //Ã“Iƒƒ“ƒo
 
+    public static int totalScore;
+    public static int stageScore;
+
     //Start‚æ‚è‘O‚Éˆ—‚³‚ê‚é
     void Awake()
     {
