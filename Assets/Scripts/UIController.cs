@@ -19,6 +19,8 @@ public class UIController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        timeCnt = GetComponent<TimeController>();
+
         buttonPanel.SetActive(false); //存在を非表示
 
         //時間差でメソッドを発動

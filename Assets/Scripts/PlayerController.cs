@@ -126,7 +126,7 @@ public class PlayerController : MonoBehaviour
             GameOver();
         }
 
-        //ぶつかった相手がItemだったらステージスコアに得点加算
+        //アイテムに触れたらステージスコアに加算
         if (collision.gameObject.CompareTag("ItemScore"))
         {
             GameManager.stageScore += collision.gameObject.GetComponent<ItemData>().value;
@@ -163,4 +163,5 @@ public class PlayerController : MonoBehaviour
         //rbody.linearVelocity = new Vector2(0, 0);
         rbody.linearVelocity = Vector2.zero;
     }
+
 }

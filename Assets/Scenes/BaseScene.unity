@@ -2604,6 +2604,7 @@ MonoBehaviour:
   nextButton: {fileID: 1631699355}
   gameClearSprite: {fileID: 21300000, guid: 361bd95b56e56504887341ad96bbcf37, type: 3}
   gameOverSprite: {fileID: 21300000, guid: 8c724e7c9c31dc4498fbc559e7c0a1ad, type: 3}
+  timeText: {fileID: 498429213}
 --- !u!114 &1186039044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2693,7 +2694,7 @@ MonoBehaviour:
   - {fileID: -3244114122435731308, guid: 265cd104f089bda4ab8edfcd3cbfed8a, type: 3}
   - {fileID: 506777212851872085, guid: 6e9d6f4285f4d9948bb4566ccccf3ec2, type: 3}
   - {fileID: -993113999835996517, guid: cb573a2593463c0489f92779f9905b3f, type: 3}
-  value: 0
+  value: 100
 --- !u!212 &1331112622
 SpriteRenderer:
   m_ObjectHideFlags: 0
