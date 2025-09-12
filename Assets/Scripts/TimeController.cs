@@ -36,7 +36,7 @@ public class TimeController : MonoBehaviour
         if (!isTimeOver)
         {
             //停止フラグがたっていないので処理したいが
-            //ゲームステータスがplayingでなくなったときは止めたい
+            //ゲームステータスがplayingでなくなった時は止めたい
             if (GameManager.gameState != "playing")
             {
                 isTimeOver = true; //停止フラグをON
@@ -58,19 +58,19 @@ public class TimeController : MonoBehaviour
                 {
                     displayTime = 0; //0という表記に統一
                     isTimeOver = true; //停止フラグをON
-                    GameManager.gameState = "gameover";
+                    //GameManager.gameState = "gameover";
                 }
             }
             else //カウントアップ形式だった場合
             {
-                //経過時間をユーザーに見せたい時間を代入
+                //経過時間をユーザーに見せたい時間に代入
                 displayTime = times;
                 if (displayTime >= gameTime)
                 {
                     //ユーザーに見せたい時間を基準時間にする
                     displayTime = gameTime;
-                    isTimeOver = true; //停止フラグをON
-                    GameManager.gameState = "gameover";
+                    isTimeOver = true;//停止フラグをON
+                    //GameManager.gameState = "gameover";
                 }
             }
 

@@ -5,7 +5,7 @@ public class CameraController : MonoBehaviour
     GameObject player;
     float x, y, z; //カメラの座標を決めるための変数
 
-    [Header("カメラの限界地")]
+    [Header("カメラの限界値")]
     public float leftLimit;
     public float rightLimit;
     public float bottomLimit;
@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour
     {
         //Playerタグをもったゲームオブジェクトを探して、変数playerに代入
         player = GameObject.FindGameObjectWithTag("Player");
-        //カメラのZ座標は初期値のまま維持したい
+        //カメラのZ座標は初期値のままを維持したい
         z = transform.position.z;
     }
 

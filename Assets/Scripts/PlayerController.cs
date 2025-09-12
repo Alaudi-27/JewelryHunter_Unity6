@@ -13,14 +13,21 @@ public class PlayerController : MonoBehaviour
     Animator animator; //Animatorコンポーネントを扱うための変数
 
     float axisH; //入力の方向を記憶するための変数
-    bool goJump = false; //ジャンプフラグ（true:真on、false:偽off）
-    bool onGround = false; //地面にいるかどうかの判定（地面にいる:true、地面にいない:false）
+    bool goJump = false; //ジャンプフラグ（true:真on、false:偽off)
+    bool onGround = false; //地面にいるかどうかの判定（地面にいる：true、地面にいない：false）
+
+    AudioSource audio;
+    public AudioClip se_Jump;
+    public AudioClip se_ItemGet;
+    public AudioClip se_Damage;
 
     void Start()
     {
         rbody = GetComponent<Rigidbody2D>(); //Playerについているコンポーネント情報を取得
 
-        animator = GetComponent<Animator>();//Animatorコンポーネント情報を代入
+        animator = GetComponent<Animator>();//Animatorコンポーネントの情報を代入
+
+        audio = GetComponent<AudioSource>(); //AudioSourceコンポーネントの情報を代入
     }
 
     void Update()
@@ -46,10 +53,10 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector3(-1, 1, 1);
         }
 
-        //GetButtonDownメソッド→引数に指定したボタンが押されたらtrueを返す、押されてなければfalseを返す
+        //GetButtonDownメソッド→引数に指定したボタンが押されたらtrueを返す、押されていなければfalseを返す
         if (Input.GetButtonDown("Jump"))
         {
-            Jump();//Jumpメソッドの発動
+            Jump(); //Jumpメソッドの発動
         }
 
     }
@@ -65,11 +72,11 @@ public class PlayerController : MonoBehaviour
 
         //地面判定をサークルキャストで行って、その結果を変数onGroundに代入
         onGround = Physics2D.CircleCast(
-            transform.position, //発射位置＝プレイヤーの位置（基準点）
-            0.2f,              //調査する円の半径
-            new Vector2(0, 1.0f), //発射方向※下方向
-            0,                //発射距離
-            groundLayer       //対象となるレイヤー情報※LayerMask
+            transform.position,   //発射位置＝プレイヤーの位置（基準点）
+            0.2f,                   //調査する円の半径
+            new Vector2(0, 1.0f),  //発射方向 ※下方向
+            0,                      //発射距離
+            groundLayer        //対象となるレイヤー情報 ※LayerMask
             );
 
         //Velocityに値を代入
@@ -93,24 +100,27 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("Run", true); //Runアニメに切り替え
         }
-        //}
+        //} 
     }
 
-    //ジャンプボタンが押されたときに呼び出されるメソッド
+    //ジャンプボタンがおされた時に呼び出されるメソッド
     void Jump()
     {
         if (onGround)
         {
+            //SEを鳴らす
+            audio.PlayOneShot(se_Jump);
+
             goJump = true; //ジャンプフラグをON
             animator.SetTrigger("Jump");
         }
     }
 
-    //isTrigger特性を持っているColliderとぶつかったら処理される
+    //isTrigger特性をもっているColliderとぶつかったら処理される
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //ぶつかった相手が"Goal"タグを持っていたら
-        //if (collision.gameObject.Tag =="Goal")
+        //ぶつかった相手が"Gaol"タグを持っていたら
+        //if (collision.gameObject.tag == "Goal")
         if (collision.gameObject.CompareTag("Goal"))
         {
             GameManager.gameState = "gameclear";
@@ -121,14 +131,20 @@ public class PlayerController : MonoBehaviour
         //ぶつかった相手が"Dead"タグを持っていたら
         if (collision.gameObject.CompareTag("Dead"))
         {
+            //SEを鳴らす
+            audio.PlayOneShot(se_Damage);
+
             GameManager.gameState = "gameover";
-            Debug.Log("ゲームオーバー");
+            Debug.Log("ゲームオーバー！");
             GameOver();
         }
 
         //アイテムに触れたらステージスコアに加算
         if (collision.gameObject.CompareTag("ItemScore"))
         {
+            //SEを鳴らす
+            audio.PlayOneShot(se_ItemGet);
+
             GameManager.stageScore += collision.gameObject.GetComponent<ItemData>().value;
             Destroy(collision.gameObject);
         }
@@ -138,7 +154,7 @@ public class PlayerController : MonoBehaviour
     public void Goal()
     {
         animator.SetBool("Clear", true); //クリアアニメに切り替え
-        GameStop(); //プレイヤーのVelocityを止めるメソッド
+        GameStop();　//プレイヤーのVelocityを止めるメソッド
     }
 
     //ゲームオーバーの時のメソッド

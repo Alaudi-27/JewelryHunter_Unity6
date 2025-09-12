@@ -18,6 +18,9 @@ public class UIController : MonoBehaviour
 
     public GameObject scoreText; //スコアテキスト
 
+    AudioSource audio;
+    SoundController soundController; //自作したスクリプト
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -31,6 +34,10 @@ public class UIController : MonoBehaviour
 
 
         UpdateScore();　//トータルスコアが出るように更新
+
+        //AudioSourceとSoundControllerの取得
+        audio = GetComponent<AudioSource>();
+        soundController = GetComponent<SoundController>();
 
     }
 
@@ -68,6 +75,11 @@ public class UIController : MonoBehaviour
 
             UpdateScore(); //UIに最終的な数字を反映
 
+            //サウンドをストップ
+            audio.Stop();
+            //SoundControllerの変数に指名したゲームクリアの音を選択して鳴らす
+            audio.PlayOneShot(soundController.bgm_GameClear);
+
             //２重３重にスコアを加算しないようgameclearのフラグは早々に変化
             GameManager.gameState = "gameend";
 
@@ -84,6 +96,11 @@ public class UIController : MonoBehaviour
             //カウント止める
             timeCnt.isTimeOver = true;
 
+            //サウンドをストップ
+            audio.Stop();
+            //SoundControllerの変数に指名したゲームクリアの音を選択して鳴らす
+            audio.PlayOneShot(soundController.bgm_GameOver);
+
             GameManager.gameState = "gameend";
         }
         else if (GameManager.gameState == "playing")
@@ -91,6 +108,25 @@ public class UIController : MonoBehaviour
             //いったんdisplayTimeの数字を変数timesに渡す
             float times = timeCnt.displayTime;
             timeText.GetComponent<TextMeshProUGUI>().text = Mathf.Ceil(times).ToString();
+
+            if (timeCnt.isCountDown)
+            {
+                if (timeCnt.displayTime <= 0)
+                {
+                    //プレイヤーを見つけてきて、そのPlayerControllerコンポーネントのGameOverメソッドをやらせている
+                    GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().GameOver();
+                    GameManager.gameState = "gameover";
+                }
+            }
+            else
+            {
+                if (timeCnt.displayTime >= timeCnt.gameTime)
+                {
+                    //プレイヤーを見つけてきて、そのPlayerControllerコンポーネントのGameOverメソッドをやらせている
+                    GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().GameOver();
+                    GameManager.gameState = "gameover";
+                }
+            }
 
             //スコアもリアルタイムに更新
             UpdateScore();
